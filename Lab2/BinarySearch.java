@@ -1,5 +1,4 @@
 import java.util.Random;
-import java.util.Arrays;   
 
 public class BinarySearch{
 
@@ -7,7 +6,7 @@ public class BinarySearch{
 
 	long sTime, eTime;
 
-	int result, size = 1000, i = 0;
+	int result, size = 100, i = 0;
 
 	Random randomObject = new Random();	
 	int randomNumbers[] = new int[size];		
@@ -15,20 +14,46 @@ public class BinarySearch{
 	while (i < size)
 	{
 	     randomNumbers[i] = randomObject.nextInt(99);
-	     //System.out.println(randomNumbers[i]);
 	     i++;
 	}
+
 	
-	Arrays.sort(randomNumbers);
+	sortArr(randomNumbers, size);	
+	
+	// print for debugging
+	/*i = 0;
+	while (i < size)
+	{
+	     System.out.println(randomNumbers[i++]);
+	}*/
+	
 
 	sTime = System.currentTimeMillis();
-	result = binarySearch(randomNumbers, 50, 0, 999);
+	result = binarySearch(randomNumbers, 52, 0, size-1);
 	eTime = System.currentTimeMillis();
 
 	System.out.println("Element is found at : " + result + " & Time consumed : " + (eTime - sTime));
 
     }
 
+     public static void sortArr(int[] arr, int size)	// sort using bubble sort
+    {
+          Boolean sortedFlag = false;
+
+          for(int i = 0; i < size-1; i++)
+          {
+	if(arr[i] > arr[i+1])
+	{
+	        int temp = arr[i];
+                       arr[i] = arr[i+1];
+                       arr[i+1] = temp;
+                       sortedFlag = true;
+	}
+          }
+          if(sortedFlag == true)
+	sortArr(arr, size);
+	
+    }
      
      // 2 6 8 9 12
      public static int binarySearch(int[] arr, int needle, int start, int end)
