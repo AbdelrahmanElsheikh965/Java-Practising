@@ -1,6 +1,7 @@
 import java.lang.annotation.*;
 import java.lang.reflect.*;
 
+// This means it will be checked in runtime.
 @Retention(RetentionPolicy.RUNTIME)
 
 // Specifying target types this annotation can be set for.
