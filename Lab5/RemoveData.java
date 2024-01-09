@@ -12,7 +12,10 @@ public class RemoveData {
 	public static boolean removeWord(String word) {
 		char firstLetter = word.charAt(0);
 		Set<String> targetCollection = Dictionary.dictionary.get(firstLetter);
-		targetCollection.remove(word);
+		if(targetCollection != null)
+			targetCollection.remove(word);
+		else
+			System.out.println("Not Found");
 		return true;
 	}
 	
@@ -23,6 +26,10 @@ public class RemoveData {
 	 */
 	public static void removeKeyValues(char key) {
 		Set<String> targetCollection = Dictionary.dictionary.get(key);
-		targetCollection.clear();
+		
+		if(targetCollection != null)
+			targetCollection.clear();
+		else
+			System.out.println("Not Found");
 	}
 }

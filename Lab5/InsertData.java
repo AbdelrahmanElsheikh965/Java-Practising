@@ -19,8 +19,11 @@ public class InsertData {
 			// Get the corresponding list of words of first letter of each word in each iteration.
 			Set<String> target = Dictionary.dictionary.get(firstLetter);
 			
-			// Add the word in the list of this key
-			target.add(word);
+			if(target != null)
+				// Add the word in the list of this key
+				target.add(word);
+			else
+				System.out.println("Not found char");
 		}
 		return true;
 	}

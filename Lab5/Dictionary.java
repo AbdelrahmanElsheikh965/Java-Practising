@@ -1,6 +1,9 @@
 // All classes can see each other as being in the same package in the same directory so they don't need to import;
 package dictionary;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
@@ -29,30 +32,10 @@ public class Dictionary {
 			}
 		};
 
-
-		// Get list of words by character 'C'
-		ReadData.getWords('C');
-		System.out.println("--------------------------------------------------"); 		
-		
-		// Insert these two words in the correct letters groups.
-		String [] words = {"Applf", "Best", "Car"};
-		InsertData.insert(words);
-		
-		// Remove this word from the whole dictionary.
-		RemoveData.removeWord("Apple");
-		  
-		// Remove all values (words) of a specific key (character).
-		RemoveData.removeKeyValues('E');
-
-		// Convert list of strings (returned from search function) to array 
-		// And then, view the string representation of the array.
-		System.out.println("Search Results : " + Arrays.toString(SearchForData.search("olp").toArray()));
-		
-		ReadData.printDictionary();
+		ReadData.printDictionary(); 		
+		Menu.mainMenu();
 		
 	}
-	
-	
 }
 
 

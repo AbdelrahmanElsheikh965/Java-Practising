@@ -20,7 +20,10 @@ public class ReadData {
 	 */
 	public static void getWords(char key) {
 		Set<String> target = Dictionary.dictionary.get(key);
-		System.out.println(target); 
+		if(target != null)
+			System.out.println(target); 
+		else
+			System.out.println("Not Found this char");
 	}
 	
 }
