@@ -2,6 +2,8 @@ package test;
 
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /* 
   ==>	 Develop a Dictionary of alphabets each of which is a key having a collection of words as a value.	 <== 
@@ -10,7 +12,8 @@ import java.util.Map.Entry;
  
 public class Dictionary {
 
-	private static HashMap<Character, Collection> dictionary;
+//	private static HashMap<Character, Collection> dictionary;
+	private static Map<Character, Set<String>> dictionary;
 	
 	public static void main(String[] args) {
 		
@@ -18,29 +21,33 @@ public class Dictionary {
 		Dictionary.dictionary = new HashMap<>()
 		{
 			{
-		     put('A', Arrays.asList("Apple", "Adventure", "Atmosphere", "Acoustic", "Alligator", "Amethyst", "Avocado", "Astonish", "Astronomy", "Abundant"));
-		     put('B', Arrays.asList("Banana", "Brave", "Breeze", "Bubble", "Blossom", "Balloon", "Beacon", "Ballet", "Bonsai", "Blissful"));
-		     put('C', Arrays.asList("Cactus", "Cascade", "Crisp", "Calm", "Charm", "Celestial", "Cello", "Cerulean", "Cherish", "Cinnamon"));
-		     put('D', Arrays.asList("Dazzle", "Delight", "Dolphin", "Dream", "Dewdrop", "Diamond", "Dusk", "Divine", "Dainty", "Dragonfly"));
-		     put('E', Arrays.asList("Eagle", "Eclipse", "Elegant", "Enchant", "Emerald", "Endless", "Essence", "Evergreen", "Exquisite", "Ephemeral"));
+		     put('A', new TreeSet<>(Arrays.asList("Apple", "Adventure", "Atmosphere", "Acoustic", "Alligator", "Amethyst", "Avocado", "Astonish", "Astronomy", "Abundant")));
+		     put('B', new TreeSet<>(Arrays.asList("Banana", "Brave", "Breeze", "Bubble", "Blossom", "Balloon", "Beacon", "Ballet", "Bonsai", "Blissful")));
+		     put('C', new TreeSet<>(Arrays.asList("Cactus", "Cascade", "Crisp", "Calm", "Charm", "Celestial", "Cello", "Cerulean", "Cherish", "Cinnamon")));
+		     put('D', new TreeSet<>(Arrays.asList("Dazzle", "Delight", "Dolphin", "Dream", "Dewdrop", "Diamond", "Dusk", "Divine", "Dainty", "Dragonfly")));
+		     put('E', new TreeSet<>(Arrays.asList("8", "Eclipse", "Elegant", "Enchant", "Emerald", "Endless", "Essence", "Evergreen", "Exquisite", "Ephemeral")));
 			}
 		};
 
-		
+
 		// Get list of words by character 'C'
 		Dictionary.getWords('C');
 		System.out.println("--------------------------------------------------"); 		
 		
 		// Insert these two words in the correct letters groups.
-		String [] words = {"Best", "Car"};
+		String [] words = {"Applf", "Best", "Car"};
 		Dictionary.insert(words);
-		Dictionary.printDictionary(); 
-		System.out.println("--------------------------------------------------"); 
 		
 		// Remove this word from the whole dictionary.
 		Dictionary.removeWord("Apple");
-		Dictionary.printDictionary(); 
 		  
+		Dictionary.removeKeyValues('E');
+
+		// Convert list of strings (returned from search function) to array 
+		// And then, view the string representation of the array.
+		System.out.println(Arrays.toString(Dictionary.search("olp").toArray()));
+		
+		Dictionary.printDictionary();
 		
 	}
 	
@@ -48,8 +55,8 @@ public class Dictionary {
 	 * Print every entry set in the map each of which on a separate line.
 	 */
 	public static void printDictionary() {
-		for (Entry<Character, Collection> ele :  Dictionary.dictionary.entrySet()) 
-			System.out.println(ele.getKey() + ":"+ ele.getValue()); 
+		for (Entry<Character, Set<String>> ele :  Dictionary.dictionary.entrySet()) 
+			System.out.println(ele.getKey() + ":" + ele.getValue());
 	}
 
 	
@@ -58,18 +65,17 @@ public class Dictionary {
 	 * @param key
 	 */
 	public static void getWords(char key) {
-		Collection target = dictionary.get(key);
+		Set<String> target = dictionary.get(key);
 		System.out.println(target); 
-		
 	}
+	
 	
 	/**
 	 * Append each word of passed array of strings to the its first letter corresponding collection.
 	 * @param words
 	 * @return true if insert was successful
 	 */
-	@SuppressWarnings("unchecked")
-	public static boolean insert (String[] words) {
+	public static boolean insert(String[] words) {
 		
 		for(String word : words )
 		{
@@ -77,17 +83,14 @@ public class Dictionary {
 			char firstLetter = word.charAt(0);
 			
 			// Get the corresponding list of words of first letter of each word in each iteration.
-			List<String> modifiableArrayList = new ArrayList<>(dictionary.get(firstLetter));
+			Set<String> target = dictionary.get(firstLetter);
 			
 			// Add the word in the list of this key
-			modifiableArrayList.add(word);
-			
-			// Update the list with the new one.
-			Dictionary.dictionary.put(firstLetter, modifiableArrayList);
+			target.add(word);
 		}
 		return true;
 	}
-	
+
 
 	/**
 	 * Remove word from a collection by the first letter of the word.
@@ -95,13 +98,52 @@ public class Dictionary {
 	 * @return
 	 */
 	public static boolean removeWord(String word) {
-		
-		List<String> modifiableArrayList = new ArrayList<>(Dictionary.dictionary.get(word.charAt(0)));
-		modifiableArrayList.remove(word);
-		Dictionary.dictionary.put(word.charAt(0), modifiableArrayList);
-		
+		char firstLetter = word.charAt(0);
+		Set<String> targetCollection = dictionary.get(firstLetter);
+		targetCollection.remove(word);
 		return true;
 	}
+	
+	/**
+	 * Remove all values(words) of a specific key.
+	 * @param key
+	 * @return
+	 */
+	public static void removeKeyValues(char key) {
+		Set<String> targetCollection = dictionary.get(key);
+		targetCollection.clear();
+	}
+	
+	
+	/**
+	 * Search for a word in the whole dictionary.
+	 * @param regexPattern
+	 * @return
+	 */
+	public static List<String> search(String regexPattern) {
+		List<String> results = new ArrayList<>();
+		
+		Pattern pattern = Pattern.compile(regexPattern);
+		
+		Matcher matcher;
+		
+		for (Entry<Character, Set<String>> ele :  Dictionary.dictionary.entrySet()) {
+			for(String word : ele.getValue())
+			{
+				matcher = pattern.matcher(word);
+				boolean found = matcher.find();
+				
+				if (found)
+					results.add(word);
+			}
+		}
+	    
+	    if(results.isEmpty())
+	      System.out.println("Match not found");
+	    
+	    return results;
+	}
+	
 	
 }
 
