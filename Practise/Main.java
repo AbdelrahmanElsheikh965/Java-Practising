@@ -44,6 +44,11 @@ public class Main {
 			MyArrayList = MyArrayList.stream().filter(n -> n % 2 != 0).collect(Collectors.toList());
 			System.out.println(MyArrayList);
 		*/
+
+		List<Integer> MyArrayList = new ArrayList<>();
+		MyArrayList.add(4);
+		MyArrayList.add(5);
+		MyArrayList.add(6);
 		
 		List<Employee> emps = new ArrayList<>(4);	// initially 4 employees
 		
@@ -69,9 +74,7 @@ public class Main {
 		
 		emps2.stream()
 			 .filter(employee -> employee.salary > 20000)
-			 .forEach(e->System.out.println(e.salary));
-		
-		
+			 .forEach(e->System.out.println(e.salary));	
 	}
 
 }
