@@ -8,6 +8,7 @@ public class Main {
 	/* Small sample of code of stream API */
 	public static void main(String[] args) {
 
+		/*
 		List<Integer> MyArrayList = new ArrayList<>();
 		MyArrayList.add(4);
 		MyArrayList.add(5);
@@ -22,6 +23,9 @@ public class Main {
 		// we can make a stream of arralist like this and apply a certain condition.
 		MyArrayList = MyArrayList.stream().filter(n -> n % 2 != 0).collect(Collectors.toList());
 		System.out.println(MyArrayList);
+		*/
+
+		
 		
 	}
 
