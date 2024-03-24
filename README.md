@@ -1,4 +1,4 @@
-# Java-Practising
+# Java-Practising Repo
 
 A repo for tackling problems by trying various techniques, and different ways of thinking on how to solve problems using Java programming language.
 
