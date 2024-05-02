@@ -2,9 +2,6 @@
 
 A repo for tackling problems by trying various techniques, and different ways of thinking on how to solve problems using Java programming language.
 
-A very interesting, enjoyable and learnable repo 😎💓
-I think this is the best repo ever
-
 ## How to run java using cmd
 
 before java -version 11   
